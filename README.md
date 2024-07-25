@@ -1,4 +1,3 @@
 # Her
- Make your AI girlfriend
 
-streamlit run web_demo_streamlit.py
+`青春年少时，求而不得的白月光`
