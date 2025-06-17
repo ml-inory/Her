@@ -1,4 +1,10 @@
-numpy<2.0
+numpy<=1.26.4
 onnxruntime==1.19
 loguru
 librosa
+torch<=2.3
+torchaudio
+modelscope
+huggingface
+huggingface_hub
+funasr>=1.1.3

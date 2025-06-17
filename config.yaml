@@ -2,3 +2,8 @@ vad:
   type: silero-vad
   sensitivity: 0.5
   silence_ms: 1000
+
+asr:
+  type: sensevoice
+  language: auto
+  device: auto
