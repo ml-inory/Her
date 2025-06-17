@@ -1,0 +1,4 @@
+numpy<2.0
+onnxruntime==1.19
+loguru
+librosa
