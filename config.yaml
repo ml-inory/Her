@@ -8,6 +8,10 @@ asr:
   language: auto
   device: auto
 
+tts:
+  type: edge-tts
+  voice: zh-CN-XiaoyiNeural
+
 llm:
   type: deepseek
   api_key: null
