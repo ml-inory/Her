@@ -1,6 +1,11 @@
 from openai import OpenAI
 from loguru import logger
 import os
+import re
+
+
+def remove_brackets_and_content(text):
+    return re.sub(r'\([^)]*\)', '', text)
 
 
 class LLMInterface(object):
@@ -55,7 +60,8 @@ class LLMInterface(object):
 
         # 提取回复
         content = response.choices[0].message.content
-
+        content = remove_brackets_and_content(content)
+        
         self.chat_history.append(
             {'role': 'assistant', 'content': content}
         )
