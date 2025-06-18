@@ -10,4 +10,4 @@ with open("config.yaml", "r") as f:
 llm = LLMFactory.create(config)
 while True:
     message = input("用户: ")
-    print("女友: ", llm.run(message))
+    print("她: ", llm.run(message))

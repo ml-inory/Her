@@ -15,4 +15,4 @@ while True:
     message = input("用户: ")
     reply = llm.run(message)
     tts.run(reply)
-    print("女友: ", reply)
+    print("她: ", reply)
