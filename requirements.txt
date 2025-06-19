@@ -10,3 +10,5 @@ huggingface_hub
 funasr>=1.1.3
 openai
 edge-tts
+fastapi[standard]
+uvicorn[standard]

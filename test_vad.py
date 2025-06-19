@@ -13,7 +13,7 @@ with open("config.yaml", "r") as f:
 
 vad_engine = VADFactory.create(config)
 
-audio, _ = librosa.load("test_data/en.wav", sr=vad_engine.samplerate(), mono=True)
+audio, sr = librosa.load("test_data/en.wav", sr=vad_engine.samplerate(), mono=True)
 index = 0
 window_size = 512
 result_path = "vad_test_result"
@@ -29,7 +29,10 @@ while True:
     if len(audio_chunk) == 0:
         break
 
-    result = vad_engine.run([audio_chunk])
+    result = vad_engine.run({
+        "samplerate": sr,
+        "data": [audio_chunk]
+    })
     if result is not None:
         start_ts = result["start_timestamp"]
         end_ts   = result["end_timestamp"]

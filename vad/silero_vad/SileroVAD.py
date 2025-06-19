@@ -4,6 +4,7 @@ from typing import List
 import numpy as np
 from datetime import datetime
 from loguru import logger
+import librosa
 
 
 class SileroVAD(VADInterface):
@@ -33,8 +34,13 @@ class SileroVAD(VADInterface):
         return self._samplerate
     
 
-    def run(self, audio_chunks: List[np.ndarray]):
+    def run(self, audio_data: dict):
+        sr = audio_data["samplerate"]
+        audio_chunks = audio_data["data"]
+
         audio = np.concatenate(audio_chunks, axis=-1) if len(audio_chunks) > 1 else audio_chunks[0]
+        if sr != self._samplerate:
+            audio = librosa.resample(audio, orig_sr=sr, target_sr=self._samplerate)
 
         if len(self.audio_with_speech) == 0:
             self.start_timestamp = datetime.now().strftime("%Y%m%d %H%M%S.%f")
