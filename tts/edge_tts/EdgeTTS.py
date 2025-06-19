@@ -1,6 +1,8 @@
 from tts.tts_interface import TTSInterface
 import os
 import re
+import numpy as np
+import librosa
 
 
 def remove_brackets_and_content(text):
@@ -30,7 +32,7 @@ class EdgeTTS(TTSInterface):
         self.voice = config["voice"]
 
 
-    def run(self, text: str) -> dict:
+    def run(self, text: str) -> np.ndarray:
         """
         Run TTS
 
@@ -40,3 +42,8 @@ class EdgeTTS(TTSInterface):
         """
         text = remove_brackets_and_content(text)
         os.system(f'edge-tts --text "{text}" -v {self.voice} --write-media hello.mp3 --rate=-20%')
+        audio, _ = librosa.load("hello.mp3", sr=16000)
+        return {
+            "audio": audio,
+            "samplerate": 16000
+        }

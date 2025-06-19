@@ -21,7 +21,16 @@ def create_engines(config_file: str):
 
 class ASRParam(BaseModel):
     samplerate: int
-    data: bytes
+    data: list[float]
+
+
+class LLMParam(BaseModel):
+    message: str
+
+
+class TTSParam(BaseModel):
+    text: str
+
 
 vad_engine, asr_engine, llm_engine, tts_engine = create_engines("config.yaml")
 app = FastAPI()
@@ -33,7 +42,7 @@ async def run_asr(asr_param: ASRParam):
 
     vad_result = vad_engine.run({
         "samplerate": asr_param.samplerate,
-        "data": [np.frombuffer(asr_param.data, dtype=np.float32)]
+        "data": [np.array(asr_param.data, dtype=np.float32)]
     })
     if vad_result is None:
         return {"status": "listening", "code": 204}
@@ -44,3 +53,27 @@ async def run_asr(asr_param: ASRParam):
     response["code"] = 200
     return response
 
+
+@app.post("/llm/")
+async def run_llm(param: LLMParam):
+    global llm_engine
+
+    llm_response = llm_engine.run(param.message)
+    return {
+        "status": "finish",
+        "code": 200,
+        "text": llm_response
+    }
+
+
+@app.post("/tts/")
+async def run_tts(param: TTSParam):
+    global tts_engine
+
+    audio_data = tts_engine.run(param.text)
+    return {
+        "status": "finish",
+        "code": 200,
+        "audio": audio_data["audio"].tolist(),
+        "samplerate": audio_data["samplerate"]
+    }

@@ -5,7 +5,7 @@ vad:
 
 asr:
   type: sensevoice
-  language: auto
+  language: zh
   device: auto
 
 tts:

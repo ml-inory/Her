@@ -33,7 +33,8 @@ class TTSInterface(metaclass=abc.ABCMeta):
         Run TTS
 
         return: {
-            audio[np.ndarray]
+            audio: audio[np.ndarray],
+            samplerate: int[16000]
         }
         """
         raise NotImplementedError
